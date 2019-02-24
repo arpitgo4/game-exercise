@@ -16,3 +16,34 @@ To run the game, simply open index.html in a browser. Or, alternatively, run a l
 Notes -
 * Do not use social or third party auth
 * MongoDB or a comparable no-sql db should be used
+
+## Project Structure 
+
+```
+	.
+	├── api-gateway                 # Nginx API Gateway Configuration
+	├── client             	        # Frontend Web App
+	├── db                          # MongoDB data
+	├── server      	        # API Server
+	├── docker-compose.yml		# Development Docker-Compose Configuration
+	└── README.md	                # This file
+```
+
+
+
+## Development
+```	
+## Start the system in development mode with hot code loading
+docker-compose up --build
+
+## To see the running logs of the system
+docker-compose logs --follow
+
+## Stop the system
+docker-compose down
+
+## To play the game, open browser at: 
+http://localhost
+
+```
+Refer to the docker-compose.yml script for detailed information.
