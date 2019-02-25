@@ -28,7 +28,7 @@ import * as constants from '../utils/constants';
 
 
 export const startGame = (user_id: string) => {
-    return userCtrl.getUser(user_id)
+    return userCtrl.getUser(user_id, { games: false, })
     .then((user: IUserModel) => {
         const { last_game_timestamp, game_counter, } = user.meta;
         const last_game_date = utils.getDate(last_game_timestamp);
@@ -39,13 +39,17 @@ export const startGame = (user_id: string) => {
 
         const new_game = {
             game_id: uuid.v4(),
-            score: -1,
+            score: 0,
         };
 
         if (last_game_date === current_date) {
             return User.updateOne(
                 { user_id },
-                { $inc: { 'meta.game_counter': 1 }, $push: { games: new_game }, $set: { 'meta.last_game_timestamp': utils.getUnixTimeStamp() } },
+                {
+                    $inc: { 'meta.game_counter': 1 },
+                    $push: { games: new_game },
+                    $set: { 'meta.last_game_timestamp': utils.getUnixTimeStamp() }
+                },
                 { new: true, },
             )
             .then((update) => {
@@ -56,7 +60,10 @@ export const startGame = (user_id: string) => {
         if (last_game_date < current_date) {
             return User.updateOne(
                 { user_id },
-                { $set: { 'meta.game_counter': 1, 'meta.last_game_timestamp': utils.getUnixTimeStamp() }, $push: { games: new_game } },
+                {
+                    $set: { 'meta.game_counter': 1, 'meta.last_game_timestamp': utils.getUnixTimeStamp() },
+                    $push: { games: new_game }
+                },
                 { new: true, },
             )
             .then((update) => {
@@ -69,8 +76,22 @@ export const startGame = (user_id: string) => {
 // conditionally update highest score
 export const endGame = (user_id: string, game_id: string, score: number) => {
     return User.findOneAndUpdate(
-        { user_id, 'games.$.game_id': game_id, },
+        { user_id, 'games.game_id': game_id, },
         { $set: { 'games.$.score': score } },
-        { upsert: true, new: true, projections: { games: true }}
-    );
+        {
+            new: true,
+            select: {
+                games: { $elemMatch: { game_id } }
+        }
+    })
+    // @ts-ignore
+    .then((user: IUserModel) => {
+        if (!user)
+            return Promise.reject({ message: `invalid user` });
+
+        if (user.games.length === 0)
+            return Promise.reject({ message: `invalid game` });
+
+        return user.games[0];
+    });
 };

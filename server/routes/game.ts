@@ -39,7 +39,20 @@ router.post('/', (req: JWTRequest, res: Response, next: NextFunction) => {
 
 // api to update the score of game
 router.put('/', (req: JWTRequest, res: Response, next: NextFunction) => {
+    const { user_id, } = req.user;
+    const { game_id, score, } = req.body.data.attributes;
 
+    gameCtrl.endGame(user_id, game_id, score)
+    .then((game: IGameModel) => {
+        res.status(200).json({
+            data: {
+                type: 'game',
+                id: game.game_id,
+                attributes: game
+            }
+        });
+    })
+    .catch((err: CustomError) => next(err));
 });
 
 
