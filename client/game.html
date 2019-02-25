@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Game Exercise</title>
+  </head>
+  <body>
+    <p style="display: inline-block;">Click the buttons to move the red square:</p>
+    <button style="display: inline-block; margin-left: 10px;" onclick="logout()">Logout</button>
+    <div>
+        <b>
+            <span>Game Stats: </span>
+            High Score: <span id="high_score"></span>,
+            Games Today: <span id="number_of_games"></span>
+        </b>
+    </div>
+    <div id="myfilter"
+      style="position:absolute;background-color:#000000;opacity:0.3;width:322px;height:182px;display:none"></div>
+    <div id="myrestartbutton" style="position:absolute;padding-top:75px;padding-left:120px;display:none;"><button
+        onclick="restartGame()">Restart</button></div>
+    <div id="canvascontainer"></div>
+    <br>
+    <div style="text-align:center;width:320px;">
+      <button ontouchstart="moveup()" onmousedown="moveup()" onmouseup="clearmove()">UP</button><br><br>
+      <button ontouchstart="moveleft()" onmousedown="moveleft()" onmouseup="clearmove()">LEFT</button>
+      <button ontouchstart="moveright()" onmousedown="moveright()" onmouseup="clearmove()">RIGHT</button><br><br>
+      <button ontouchstart="movedown()" onmousedown="movedown()" onmouseup="clearmove()">DOWN</button>
+    </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.0.0/dist/fetch.umd.min.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/game.js"></script>
+  </body>
+</html>

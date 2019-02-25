@@ -2,6 +2,7 @@ var myGameArea;
 var myGamePiece;
 var myObstacles = [];
 var myscore;
+var game_id;
 
 function restartGame() {
   document.getElementById("myfilter").style.display = "none";
@@ -20,7 +21,23 @@ function startGame() {
   myGameArea = new gamearea();
   myGamePiece = new component(30, 30, "red", 10, 75);
   myscore = new component("15px", "Consolas", "black", 220, 25, "text");
-  myGameArea.start();
+
+  setGameStats()
+  .then(api.startGame)
+  .then(game => {
+    game_id = game.game_id;
+
+    myGameArea.start();
+  });
+}
+
+function setGameStats() {
+  return api.getUser()
+  .then(user => {
+    console.log(user);
+    document.getElementById('high_score').textContent = user.meta.highest_score;
+    document.getElementById('number_of_games').textContent = user.meta.game_counter;
+  });
 }
 
 function gamearea() {
@@ -88,6 +105,9 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGameArea.stop();
+            console.log('game over!!!!!!');
+            api.endGame(game_id, myscore.score)
+            .then(setGameStats);
             document.getElementById("myfilter").style.display = "block";
             document.getElementById("myrestartbutton").style.display = "block";
             return;
@@ -151,19 +171,26 @@ function checkKey(e) {
 
   e = e || window.event;
 
-  switch (e.keyCode) {
-    case '38': moveup(); break;
-    case '40': movedown(); break;
-    case '37': moveleft(); break;
-    case '39': moveright(); break;
-  }
+  if (e.keyCode == '38') moveup();
+  if (e.keyCode == '40') movedown();
+  else if (e.keyCode == '37') moveleft();
+  else if (e.keyCode == '39') moveright();
+
 }
 
-
+function logout() {
+  localstorageUtils.removeValue('auth-token');
+  window.location = '/index.html';
+}
 
 function main() {
+  const auth_token = localstorageUtils.getValue('auth-token');
+  if (!auth_token)
+    window.location = '/login.html'
+
   document.onkeydown = checkKey;
   document.onkeyup = clearmove;
+
   startGame();
 }
 
