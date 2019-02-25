@@ -147,4 +147,24 @@ function clearmove(e) {
     myGamePiece.speedY = 0; 
 }
 
-startGame();
+function checkKey(e) {
+
+  e = e || window.event;
+
+  switch (e.keyCode) {
+    case '38': moveup(); break;
+    case '40': movedown(); break;
+    case '37': moveleft(); break;
+    case '39': moveright(); break;
+  }
+}
+
+
+
+function main() {
+  document.onkeydown = checkKey;
+  document.onkeyup = clearmove;
+  startGame();
+}
+
+main();
