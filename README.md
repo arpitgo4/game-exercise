@@ -31,7 +31,7 @@ Notes -
 
 
 
-## Development
+## To Run
 ```	
 ## Start the system in development mode with hot code loading
 docker-compose up --build
@@ -47,3 +47,9 @@ http://localhost
 
 ```
 Refer to the docker-compose.yml script for detailed information.
+
+## API Sheet
+```
+## Postman Collection
+https://documenter.getpostman.com/view/401954/S11GRzgf
+```
