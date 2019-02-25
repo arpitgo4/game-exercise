@@ -55,6 +55,10 @@ export const generateUserJWToken = (user: IUserModel, expireTime: string = USER_
     return Promise.resolve(jsonWebToken.sign(token_payload, JWT_SECRET, options));
 };
 
+export const getDate = (timestamp: number): number => {
+    const date = new Date(timestamp * 1000);
+    return date.getDate();
+};
 
 function test() {
 

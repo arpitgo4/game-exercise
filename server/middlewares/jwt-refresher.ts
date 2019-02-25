@@ -13,9 +13,9 @@ const jwtRefresher = (req: JWTRequest, res: Response, next: NextFunction) => {
 
     // @ts-ignore
     res.json = (data: object) => {
-        const { email } = req.user;
+        const { user_id } = req.user;
 
-        userCtrl.findUser(email)
+        userCtrl.getUser(user_id)
         // @ts-ignore
         .then((user: IUserModel) => {
             if (!user)

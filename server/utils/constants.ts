@@ -5,7 +5,7 @@ const { API_GATEWAY, } = process.env;
 const EMAIL_VERIFICATION_URL = (email_uuid: string, email: string): string => `http://${API_GATEWAY}/account/${email_uuid}/${email}`;
 const PASSWORD_RESET_URL = (password_uuid: string, email: string): string => `http://${API_GATEWAY}/pwdreset/${password_uuid}/${email}`;
 
-const USER_JWT_TOKEN_TTL = '10m';
+const USER_JWT_TOKEN_TTL = '20m';
 
 export {
     EMAIL_VERIFICATION_URL,

@@ -14,7 +14,7 @@ export interface CustomError extends Error {
 
 export interface JWTRequest extends Request {
     user: {
-        email: string;
-        id: number;
+        username: string;
+        user_id: string;
     };
 }

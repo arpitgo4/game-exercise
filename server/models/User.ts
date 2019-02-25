@@ -10,6 +10,7 @@ import { IUserModel } from '../types/Models.d';
 const Schema = mongoose.Schema;
 
 const gameSchema = new Schema({
+    game_id: { type: String, default: uuid.v4, },
     score: { type: Number, default: -1, },      // -1: game discontinued in between
     meta: {
         created_at: { type: Number, default: getUnixTimeStamp },
@@ -25,7 +26,8 @@ const userSchema = new Schema({
     meta: {
         created_at: { type: Number, default: getUnixTimeStamp },
         game_counter: { type: Number, default: 0, },
-        last_game_timestamp: { type: Number, },
+        highest_score: { type: Number, default: 0 },
+        last_game_timestamp: { type: Number, default: 0, },
     }
 });
 

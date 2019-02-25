@@ -21,41 +21,19 @@ import { IUserModel } from 'Models';
 
 
 router.get('/', (req: JWTRequest, res: Response, next: NextFunction) => {
-    userCtrl.getUsers()
-    .then((users: Array<IUserModel>) => {
-        res.status(200).json({
-            data: users.reduce((acc, user) => [ ...acc, {
-                type: 'user',
-                id: user._id,
-                attributes: user
-            } ], [])
-        });
-    })
-    .catch((err: CustomError) => {
-        res.status(400).json({
-            errors: [ { message: err.message } ]
-        });
-        next(err);
-    });
-});
+    const { user_id } = req.user;
 
-router.get('/:id', (req: JWTRequest, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-
-    userCtrl.getUser(id)
+    userCtrl.getUser(user_id)
     .then((user: IUserModel) => {
         res.status(200).json({
             data: {
                 type: 'user',
-                id: user._id,
+                id: user.user_id,
                 attributes: user
             }
         });
     })
     .catch((err: CustomError) => {
-        res.status(400).json({
-            errors: [ { message: err.message } ]
-        });
         next(err);
     });
 });
@@ -74,9 +52,6 @@ router.post('/', (req: JWTRequest, res: Response, next: NextFunction) => {
         });
     })
     .catch((err: CustomError) => {
-        res.status(400).json({
-            errors: [ { message: err.message } ]
-        });
         next(err);
     });
 });
@@ -95,9 +70,6 @@ router.put('/', (req: JWTRequest, res: Response, next: NextFunction) => {
         });
     })
     .catch((err: CustomError) => {
-        res.status(400).json({
-            errors: [ { message: err.message } ]
-        });
         next(err);
     });
 });
@@ -116,9 +88,6 @@ router.delete('/', (req: JWTRequest, res: Response, next: NextFunction) => {
         });
     })
     .catch((err: CustomError) => {
-        res.status(400).json({
-            errors: [ { message: err.message } ]
-        });
         next(err);
     });
 });
