@@ -20,8 +20,7 @@ const gameSchema = new Schema({
 const userSchema = new Schema({
     user_id: { type: String, default: uuid.v4 },
     username: { type: String, required: true, },
-    password: { type: String, required: false },
-    email: { type: String, required: false },
+    password: { type: String, required: true },
     games: { type: Array(gameSchema), default: [], },
     meta: {
         created_at: { type: Number, default: getUnixTimeStamp },
