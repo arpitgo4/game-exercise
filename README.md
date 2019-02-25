@@ -33,6 +33,9 @@ Notes -
 
 ## To Run
 ```	
+## Use ubuntu, as docker is mounting volumes from host, 
+## may produce issues in windows/macosx
+
 ## Start the system in development mode with hot code loading
 docker-compose up --build
 
@@ -52,4 +55,5 @@ Refer to the docker-compose.yml script for detailed information.
 ```
 ## Postman Collection
 https://documenter.getpostman.com/view/401954/S11GRzgf
+
 ```
