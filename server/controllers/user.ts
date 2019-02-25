@@ -62,30 +62,12 @@ export const createUser = (user: IUserModel): Promise<IUserModel> => {
     return utils.generateHash(user.password)
     .then((hashed_password: string) => {
         const new_user = Object.assign({}, user, {
+                            username: user.username,
                             password: hashed_password,
                         });
 
         return User.create(new_user);
     })
-    .then((user: IUserModel) => {
-        user = user.toObject();
-        delete user.password;
-
-        return user;
-    });
-};
-
-export const updateUser = (user: IUserModel): Promise<IUserModel> =>  {
-    // @ts-ignore
-    return User.findOneAndUpdate(
-        { user_id: user._id },
-        { $set: { ...user, 'meta.updated_at': utils.getUnixTimeStamp() } },
-        { new: true, upsert: true, projection: { password: false, } }
-    );
-};
-
-export const removeUser = (_id: String): Promise<IUserModel> => {
-    return User.findOneAndRemove({ _id })
     .then((user: IUserModel) => {
         user = user.toObject();
         delete user.password;

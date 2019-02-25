@@ -38,59 +38,5 @@ router.get('/', (req: JWTRequest, res: Response, next: NextFunction) => {
     });
 });
 
-router.post('/', (req: JWTRequest, res: Response, next: NextFunction) => {
-    const user = req.body.data.attributes;
-
-    userCtrl.createUser(user)
-    .then((user: IUserModel) => {
-        res.status(200).json({
-            data: {
-                type: 'user',
-                id: user._id,
-                attributes: user
-            }
-        });
-    })
-    .catch((err: CustomError) => {
-        next(err);
-    });
-});
-
-router.put('/', (req: JWTRequest, res: Response, next: NextFunction) => {
-    const user = req.body.data.attributes;
-
-    userCtrl.updateUser(user)
-    .then((user: IUserModel) => {
-        res.status(200).json({
-            data: {
-                type: 'user',
-                id: user._id,
-                attributes: user
-            }
-        });
-    })
-    .catch((err: CustomError) => {
-        next(err);
-    });
-});
-
-router.delete('/', (req: JWTRequest, res: Response, next: NextFunction) => {
-    const user = req.body.data.attributes;
-
-    userCtrl.removeUser(user._id)
-    .then((user: IUserModel) => {
-        res.status(200).json({
-            data: {
-                type: 'user',
-                id: user._id,
-                attributes: user
-            }
-        });
-    })
-    .catch((err: CustomError) => {
-        next(err);
-    });
-});
-
 
 export default router;
